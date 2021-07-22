@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class CustomerDto {
-    private final UUID customerId;
-    private final String customerName;
+    private UUID customerId;
+    private String customerName;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+@Deprecated
 @RequestMapping("/api/v1/beer")
 @RestController
 public class BeerController {
@@ -29,13 +30,20 @@ public class BeerController {
     {
         BeerDto savedBeer=beerService.saveNewBeer(beerDto);
         HttpHeaders headers=new HttpHeaders();
-        headers.add("Location","/api/v1/beer" + savedBeer.getId().toString());
+        headers.add("Location","/api/v1/beer/" + savedBeer.getId().toString());
         return new ResponseEntity(headers,HttpStatus.CREATED);
     }
-    @PutMapping("/{beerId}")
+    @PutMapping({"/{beerId}"})
     public ResponseEntity updateBeer(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto)
     {
          beerService.updateBeer(beerId,beerDto);
          return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping({"/{beerId}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBeer(@PathVariable("beerId") UUID beerId)
+    {
+        beerService.deleteBeer(beerId);
     }
 }
